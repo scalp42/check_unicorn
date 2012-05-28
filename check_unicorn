@@ -1,0 +1,47 @@
+#!/bin/bash
+## check_unicorn.sh for check_unicorn in /Users/fresh/nagios/check_unicorn
+##
+## Made by Anthony Scalisi
+## <scalisi.a@gmail.com>
+##
+## Started on  Mon May 28 15:25:47 2012 Anthony Scalisi
+## Last update Mon May 28 15:26:35 2012 Anthony Scalisi
+##
+
+OK_STATE=0
+WARNING_STATE=1
+CRITICAL_STATE=2
+UNKNOWN_STATE=3
+
+check_master=`ps awx | grep 'unicorn_rails master' | grep -v grep`
+check_workers=`ps awx | grep 'unicorn_rails worker' | grep -v grep`
+
+count_master=`ps awx | grep 'unicorn_rails master' | grep -v grep | wc -l`
+count_workers=`ps awx | grep 'unicorn_rails worker' | grep -v grep | wc -l`
+
+check_all=`ps awx | grep unicorn | grep -v grep`
+count_all=`ps awx | grep unicorn | grep -v grep | wc -l`
+
+if [[ "$count_master" -eq 1 ]]; then
+        if [[ "$count_workers" -eq "$1" ]]; then
+                echo "OK - $count_workers unicorn workers running"
+                exit ${OK_STATE}
+        else
+                if [[ "$count_workers" -gt "$1" ]]; then
+                        echo "WARNING - Too many unicorn workers ($count_workers) running."
+                        exit ${WARNING_STATE}
+                elif [[ "$count_workers" -lt $1 ]]; then
+                        echo "CRITICAL - only $count_workers unicorn workers are running !"
+                        exit ${CRITICAL_STATE}
+                fi
+        fi
+elif [[ "$count_master" -gt 1 ]]; then
+    echo "WARNING - $count_master master unicorn running at the same time!"
+    exit ${WARNING_STATE}
+elif [[ "$count_master" -lt 1 ]]; then
+    echo "CRITICAL - $count_master master unicorn running at the same time!"
+    exit ${CRITICAL_STATE}
+else
+    echo "UNKNOWN - Could not figure unicorn status. Please check it out ASAP."
+    exit ${UNKNOW_STATE}
+fi
