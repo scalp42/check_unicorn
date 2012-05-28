@@ -5,7 +5,7 @@
 ## <scalisi.a@gmail.com>
 ##
 ## Started on  Mon May 28 15:25:47 2012 Anthony Scalisi
-## Last update Mon May 28 15:26:35 2012 Anthony Scalisi
+## Last update Mon May 28 15:49:14 2012 Anthony Scalisi
 ##
 
 OK_STATE=0
@@ -39,7 +39,7 @@ elif [[ "$count_master" -gt 1 ]]; then
     echo "WARNING - $count_master master unicorn running at the same time!"
     exit ${WARNING_STATE}
 elif [[ "$count_master" -lt 1 ]]; then
-    echo "CRITICAL - $count_master master unicorn running at the same time!"
+    echo "CRITICAL - no master unicorn running !"
     exit ${CRITICAL_STATE}
 else
     echo "UNKNOWN - Could not figure unicorn status. Please check it out ASAP."
