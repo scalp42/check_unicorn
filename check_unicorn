@@ -5,13 +5,31 @@
 ## <scalisi.a@gmail.com>
 ##
 ## Started on  Mon May 28 15:25:47 2012 Anthony Scalisi
-## Last update Mon May 28 16:29:11 2012 Anthony Scalisi
+## Last update Mon May 28 16:59:28 2012 Anthony Scalisi
 ##
 
 OK_STATE=0
 WARNING_STATE=1
 CRITICAL_STATE=2
 UNKNOWN_STATE=3
+EXPECTED_ARGS=1
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+then
+    echo "Usage: `basename $0` [number of workers expected]"
+    echo ${UNKNOWN_STATE}
+    exit $E_BADARGS
+fi
+
+if [ "$(id -u)" != "0" ]; then
+    echo ""
+    echo "Gotta be root to run this script (or Obiwan Kenobi)."
+    echo ""
+    echo "Syntax: sudo $0"
+    echo ""
+    exit 42
+fi
 
 check_master=`sudo ps awx | grep 'unicorn_rails master' | grep -v grep`
 check_workers=`sudo ps awx | grep 'unicorn_rails worker' | grep -v grep`
