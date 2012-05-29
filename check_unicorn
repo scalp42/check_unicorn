@@ -18,7 +18,7 @@ E_BADARGS=65
 if [ $# -ne $EXPECTED_ARGS ]
 then
     echo "Usage: `basename $0` [number of workers expected]"
-    echo ${UNKNOWN_STATE}
+    exit ${UNKNOWN_STATE}
     exit $E_BADARGS
 fi
 
