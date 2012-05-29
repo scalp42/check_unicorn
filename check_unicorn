@@ -5,7 +5,7 @@
 ## <scalisi.a@gmail.com>
 ##
 ## Started on  Mon May 28 15:25:47 2012 Anthony Scalisi
-## Last update Mon May 28 16:59:28 2012 Anthony Scalisi
+## Last update Mon May 28 18:58:21 2012 Anthony Scalisi
 ##
 
 OK_STATE=0
@@ -22,23 +22,14 @@ then
     exit $E_BADARGS
 fi
 
-if [ "$(id -u)" != "0" ]; then
-    echo ""
-    echo "Gotta be root to run this script (or Obiwan Kenobi)."
-    echo ""
-    echo "Syntax: sudo $0"
-    echo ""
-    exit 42
-fi
+check_master=`ps awx | grep 'unicorn_rails master' | grep -v grep`
+check_workers=`ps awx | grep 'unicorn_rails worker' | grep -v grep`
 
-check_master=`sudo ps awx | grep 'unicorn_rails master' | grep -v grep`
-check_workers=`sudo ps awx | grep 'unicorn_rails worker' | grep -v grep`
+count_master=`ps awx | grep 'unicorn_rails master' | grep -v grep | wc -l`
+count_workers=`ps awx | grep 'unicorn_rails worker' | grep -v grep | wc -l`
 
-count_master=`sudo ps awx | grep 'unicorn_rails master' | grep -v grep | wc -l`
-count_workers=`sudo ps awx | grep 'unicorn_rails worker' | grep -v grep | wc -l`
-
-check_all=`sudo ps awx | grep unicorn | grep -v grep`
-count_all=`sudo ps awx | grep unicorn | grep -v grep | wc -l`
+check_all=`ps awx | grep unicorn | grep -v grep`
+count_all=`ps awx | grep unicorn | grep -v grep | wc -l`
 
 if [[ "$count_master" -eq 1 ]]; then
         if [[ "$count_workers" -eq "$1" ]]; then
