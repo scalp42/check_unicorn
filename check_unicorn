@@ -22,11 +22,11 @@ then
     exit $E_BADARGS
 fi
 
-check_master=`ps awx | grep 'unicorn_rails master' | grep -v grep`
-check_workers=`ps awx | grep 'unicorn_rails worker' | grep -v grep`
+check_master=`ps awx | grep -E "(unicorn|unicorn_rails) master" | grep -v grep`
+check_workers=`ps awx | grep -E "(unicorn|unicorn_rails) worker" | grep -v grep`
 
-count_master=`ps awx | grep 'unicorn_rails master' | grep -v grep | wc -l`
-count_workers=`ps awx | grep 'unicorn_rails worker' | grep -v grep | wc -l`
+count_master=`ps awx | grep -E '(unicorn|unicorn_rails) master' | grep -v grep | wc -l`
+count_workers=`ps awx | grep -E '(unicorn|unicorn_rails) worker' | grep -v grep | wc -l`
 
 check_all=`ps awx | grep unicorn | grep -v grep`
 count_all=`ps awx | grep unicorn | grep -v grep | wc -l`
