@@ -24,7 +24,7 @@ fi
 
 count_unicorn=`ps awx | egrep unicorn | egrep -v "(grep|nagios|check_unicorn)" | wc -l`
 
-if [[ "$count_unicorn" -eq "$1" ]]; then
+if [[ "$count_unicorn" -ge "$1" ]]; then
 	echo "OK - $count_unicorn unicorn processes running"
 	exit ${OK_STATE}
 #elif [[ "$count_unicorn" -gt "$1" ]]; then
